@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les Kabyles, Les Rifains, Les Chaouis et Les Guanches aux Pays-Bas</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        /* General styling for the body and title */
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #1b1b1b; /* Darker background for better contrast */
+            color: #fff;
+        }
+
+        /* Styling for the title */
+        #title {
+            text-align: center;
+            font-size: 28px;
+            margin: 20px 0;
+            color: #f0db4f; /* Vibrant title color */
+            font-weight: bold;
+        }
+
+        /* Styling for the map container */
+        #map {
+            height: 80%;
+            width: 100%;
+        }
+
+        /* Styling for the legend */
+        .legend {
+            background-color: rgba(0, 0, 0, 0.8); /* Darker background with good contrast */
+            color: white;
+            padding: 12px;
+            font-size: 16px;
+            line-height: 20px;
+            border-radius: 6px;
+            width: 200px;
+        }
+
+        .legend i {
+            width: 24px; /* Larger squares for better visibility */
+            height: 24px;
+            float: left;
+            margin-right: 10px;
+            opacity: 0.9;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Title at the top -->
+    <div id="title">Les Kabyles, Les Rifains, Les Chaouis et Les Guanches aux Pays-Bas</div>
+
+    <!-- Map container -->
+    <div id="map"></div>
+
+    <!-- Including Leaflet.js -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <script>
+        // Initializing the map and setting its view on the Netherlands
+        var map = L.map('map').setView([52.3676, 4.9041], 7); // Centered on Amsterdam
+
+        // Adding a dark tile layer from CartoDB for a dark-themed map
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors & CartoDB',
+        }).addTo(map);
+
+        // Adding circle markers for different Berber communities with specific colors
+        var kabyleMarker = L.circle([52.3676, 4.9041], {
+            color: '#ffcc00',    // Vibrant yellow for Kabyles
+            fillColor: '#ffcc00',
+            fillOpacity: 0.7,
+            radius: 3000
+        }).addTo(map).bindPopup('Les Kabyles à Amsterdam');
+
+        // All Rifain markers now in green
+        var rifainMarkers = [
+            L.circle([51.9225, 4.4792], {
+                color: '#66cc66',    // Green for Rifains in Rotterdam
+                fillColor: '#66cc66',
+                fillOpacity: 0.7,
+                radius: 3000
+            }).bindPopup('Les Rifains à Rotterdam'),
+
+            L.circle([52.0907, 5.1214], {
+                color: '#66cc66',    // Green for Rifains in Utrecht
+                fillColor: '#66cc66',
+                fillOpacity: 0.7,
+                radius: 3000
+            }).bindPopup('Les Rifains à Utrecht'),
+
+            L.circle([52.1601, 4.4970], {
+                color: '#66cc66',    // Green for Rifains in Leiden
+                fillColor: '#66cc66',
+                fillOpacity: 0.7,
+                radius: 3000
+            }).bindPopup('Les Rifains à Leiden'),
+
+            L.circle([51.4416, 5.4697], {
+                color: '#66cc66',    // Green for Rifains in Eindhoven
+                fillColor: '#66cc66',
+                fillOpacity: 0.7,
+                radius: 3000
+            }).bindPopup('Les Rifains à Eindhoven'),
+
+            L.circle([53.2194, 6.5665], {
+                color: '#66cc66',    // Green for Rifains in Groningen
+                fillColor: '#66cc66',
+                fillOpacity: 0.7,
+                radius: 3000
+            }).bindPopup('Les Rifains à Groningen')
+        ];
+
+        // Adding all Rifain markers to the map
+        rifainMarkers.forEach(marker => marker.addTo(map));
+
+        var chaouiMarker = L.circle([52.0907, 5.1214], {
+            color: '#ff6666',    // Bright red for Chaouis
+            fillColor: '#ff6666',
+            fillOpacity: 0.7,
+            radius: 3000
+        }).addTo(map).bindPopup('Les Chaouis à Utrecht');
+
+        var guancheMarker = L.circle([51.9851, 5.8987], {
+            color: '#6699ff',    // Vibrant blue for Guanches
+            fillColor: '#6699ff',
+            fillOpacity: 0.7,
+            radius: 3000
+        }).addTo(map).bindPopup('Les Guanches à Nijmegen');
+
+        // Adding a fixed legend to the map
+        var legend = L.control({ position: 'bottomright' });
+
+        legend.onAdd = function(map) {
+            var div = L.DomUtil.create('div', 'legend'),
+                labels = ['<strong>Communautés Berbères</strong>'],
+                categories = ['Kabyles', 'Rifains', 'Chaouis', 'Guanches'];
+
+            var colors = ['#ffcc00', '#66cc66', '#ff6666', '#6699ff']; // Enhanced colors
+
+            for (var i = 0; i < categories.length; i++) {
+                div.innerHTML +=
+                    '<i style="background:' + colors[i] + '"></i> ' +
+                    categories[i] + '<br>';
+            }
+            return div;
+        };
+
+        legend.addTo(map);
+    </script>
+</body>
+</html>
